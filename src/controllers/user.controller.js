@@ -6,9 +6,9 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
 
-const generateAccessTokenAndRefreshToken = async (useId) => {
+const generateAccessTokenAndRefreshToken = async (userId) => {
     try {
-        const user = await User.findOne(useId);
+        const user = await User.findOne(userId);
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
 
@@ -201,7 +201,7 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
         if(!user) {
             throw new ApiError(401, "Invalid refresh token");
         }
-    
+
         if(incomingRefreshToken !== user.refreshToken) {
             throw new ApiError(401, "Refresh token is expired or used");
         }
@@ -211,18 +211,18 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
             secure: true
         };
     
-        const { accessToken, newRefreshToken } = await generateAccessTokenAndRefreshToken(user._id);
-    
+        const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id);
+
         return res
             .status(200)
             .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", newRefreshToken, options)
+            .cookie("refreshToken", refreshToken, options)
             .json(
                 new ApiResponse(
                     200,
                     {
                         accessToken,
-                        refreshToken: newRefreshToken
+                        refreshToken: refreshToken
                     },
                     "Access token refreshed"
                 )
@@ -232,6 +232,8 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
         throw new ApiError(401, error?.message || "Invalid refresh token");
     }
 });
+
+
 
 
 export { registerUser, loginUser, logoutUser, refreshAccessToken };
