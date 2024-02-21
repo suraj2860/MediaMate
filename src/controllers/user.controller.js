@@ -1,10 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from '../utils/ApiError.js';
 import { User } from "../models/user.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { uploadOnCloudinary, deleteFromClodinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
-import mongoose, {ObjectId} from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
@@ -332,6 +332,9 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Error occured while uploading user avatar on Cloudinary");
     }
 
+    const oldUserAvatar = await User.findById(req.user?._id).select("avatar");
+    const oldAvatarPublicId = oldUserAvatar.avatar.split('/').pop().split('.').slice(0, -1).join('.');
+
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
@@ -343,6 +346,10 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
             new: true
         }
     ).select("-password");
+
+    if (user) {
+        await deleteFromClodinary(oldAvatarPublicId);
+    }
 
     return res
         .status(200)
@@ -375,6 +382,9 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Error occured while uploading user cover image on Cloudinary");
     }
 
+    const oldUserCoverImage = await User.findById(req.user?._id).select("coverImage");
+    const oldCoverImagePublicId = oldUserCoverImage.coverImage.split('/').pop().split('.').slice(0, -1).join('.');
+
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
@@ -386,6 +396,11 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
             new: true
         }
     ).select("-password");
+
+    if (user) {
+        await deleteFromClodinary(oldCoverImagePublicId);
+    }
+
 
     return res
         .status(200)
@@ -399,11 +414,11 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 });
 
 
-const getUserChannelProfile = asyncHandler( async (req, res) => {
+const getUserChannelProfile = asyncHandler(async (req, res) => {
 
     const { username } = req.params;
 
-    if(!username?.trim()) {
+    if (!username?.trim()) {
         throw new ApiError(400, "Username is missing");
     }
 
@@ -439,7 +454,7 @@ const getUserChannelProfile = asyncHandler( async (req, res) => {
                 },
                 isSubscribed: {
                     $cond: {
-                        if: { $in: [req.user?._id, "$subscribers.subscriber"]},
+                        if: { $in: [req.user?._id, "$subscribers.subscriber"] },
                         then: true,
                         else: false
                     }
@@ -460,7 +475,7 @@ const getUserChannelProfile = asyncHandler( async (req, res) => {
         }
     ]);
 
-    if(!channel?.length) {
+    if (!channel?.length) {
         throw new ApiError(404, "Channel does not exists");
     }
 
@@ -476,11 +491,14 @@ const getUserChannelProfile = asyncHandler( async (req, res) => {
 });
 
 
-const getWatchHistory = asyncHandler( async (req, res) => {
-    
+const getWatchHistory = asyncHandler(async (req, res) => {
+
     const user = await User.aggregate([
         {
-            $match: new mongoose.Types.ObjectId(req.user._id)
+            $match: 
+            {
+                _id: new mongoose.Types.ObjectId(req.user._id)
+            }
         },
         {
             $lookup: {
@@ -508,7 +526,9 @@ const getWatchHistory = asyncHandler( async (req, res) => {
                     },
                     {
                         $addFields: {
-                            $first: "$owner"
+                            owner: {
+                                $first: "$owner"
+                            }
                         }
                     }
                 ]
