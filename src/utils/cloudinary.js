@@ -29,14 +29,14 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-const deleteFromClodinary = async (publicId) => {
+const deleteFromCloudinary = async (publicId, resource_type) => {
     try {
 
-        await cloudinary.api.delete_resources([publicId]);
+        await cloudinary.api.delete_resources([publicId], { resource_type: resource_type});
 
     } catch (error) {
         console.log("Error occured while deleting resources from cloudinary");
     }
 }
 
-export { uploadOnCloudinary, deleteFromClodinary };
+export { uploadOnCloudinary, deleteFromCloudinary };
