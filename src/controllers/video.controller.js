@@ -31,6 +31,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
         }
         videoQuery.owner = userId;
     }
+    //videoQuery.isPublished = true;
 
     let sortOptions = { createdAt: 1};
     if (sortBy && sortType) {
@@ -117,7 +118,7 @@ const getVideoById = asyncHandler(async (req, res) => {
     //TODO: get video by id
 
     if (!mongoose.Types.ObjectId.isValid(videoId)) {
-        throw new ApiError(401, "invalid videoId");
+        throw new ApiError(400, "invalid videoId");
     }
 
     const video = await Video.findById(videoId);
