@@ -50,15 +50,37 @@ const getUserTweets = asyncHandler(async (req, res) => {
         throw new ApiError(404, "user not found");
     }
 
-    const tweets = await Tweet.aggregatePaginate(
+    const tweets = await Tweet.aggregate([
         {
-            $match: { video: userId }
+            $match: {
+                owner: user._id
+            }
         },
         {
-            page: parseInt(page),
-            limit: parseInt(limit)
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username: 1,
+                            fullName: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: { $first: "$owner" }
+            }
         }
-    );
+    ]);
+
+    
     
     if(!tweets) {
         throw new ApiError(500, "DB :: something went wrong while fetching tweets");
