@@ -13,6 +13,11 @@ const createPlaylist = asyncHandler(async (req, res) => {
     if(!name) {
         throw new ApiError(400, "name is required");
     }
+
+    const existingPlaylist = await Playlist.findOne({ name, owner: req.user?._id });
+    if(existingPlaylist) {
+        throw new ApiError(400, "playlist with this name already exists");
+    }
     
     const playlist = await Playlist.create({
         name: name,
@@ -102,6 +107,10 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
         throw new ApiError(404, "playlist not found");
     }
 
+    if(playlist.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(401, "you are not the owner of this playlist");
+    }
+
     const video = await Video.findById(videoId);
     if(!video) {
         throw new ApiError(404, "video not found");
@@ -110,7 +119,7 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
     if(playlist.videos.indexOf(videoId) !== -1) {
         throw new ApiError(400, "video already present in the playlist");
     }
-       
+
     playlist.videos.push(videoId);
     const updatedPlaylist = await playlist.save();
 
@@ -129,18 +138,116 @@ const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
     const {playlistId, videoId} = req.params
     // TODO: remove video from playlist
 
-})
+    if(!mongoose.Types.ObjectId.isValid(playlistId)) {
+        throw new ApiError(400, "invalid playlistId");
+    }
+    if(!mongoose.Types.ObjectId.isValid(videoId)) {
+        throw new ApiError(400, "invalid videoId");
+    }
+
+    const playlist = await Playlist.findById(playlistId);
+    if(!playlist) {
+        throw new ApiError(404, "playlist not found");
+    }
+
+    if(playlist.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(401, "you are not the owner of this playlist");
+    }
+
+    const video = await Video.findById(videoId);
+    if(!video) {
+        throw new ApiError(404, "video not found");
+    }
+
+    const indexOfVideoToBeDeleted = playlist.videos.indexOf(videoId);
+    if( indexOfVideoToBeDeleted === -1) {
+        throw new ApiError(404, "video not found in the playlist");
+    }
+
+    playlist.videos.splice(indexOfVideoToBeDeleted, 1);
+    const updatedPlaylist = await playlist.save();
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                updatedPlaylist,
+                "video removed successfully from playlist"
+            )
+        );
+});
 
 const deletePlaylist = asyncHandler(async (req, res) => {
     const {playlistId} = req.params
     // TODO: delete playlist
+
+    if(!mongoose.Types.ObjectId.isValid(playlistId)) {
+        throw new ApiError(400, "invalid playlistId");
+    }
+
+    const playlist = await Playlist.findById(playlistId);
+    if(!playlist) {
+        throw new ApiError(404, "playlist not found");
+    }
+
+    if(playlist.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(401, "you are not the owner of this playlist");
+    }
+
+    const isPlaylistDeleted = await Playlist.findByIdAndDelete(playlistId);
+
+    if(!isPlaylistDeleted) {
+        throw new ApiError(500, "DB :: something went wrong while deleting playlist");
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "playlist deleted successfully"
+            )
+        );
 })
 
 const updatePlaylist = asyncHandler(async (req, res) => {
     const {playlistId} = req.params
     const {name, description} = req.body
     //TODO: update playlist
-})
+
+    if(!mongoose.Types.ObjectId.isValid(playlistId)) {
+        throw new ApiError(400, "invalid playlistId");
+    }
+
+    const playlist = await Playlist.findById(playlistId);
+    if(!playlist) {
+        throw new ApiError(404, "playlist not found");
+    }
+
+    if(playlist.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(401, "you are not the owner of this playlist");
+    }
+
+    if(!name && !description) {
+        throw new ApiError(400, "atleast one field(name or description) is required to update playlist");
+    }
+
+    playlist.name = name;
+    playlist.description = description;
+    const updatedPlaylist = await playlist.save();
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                updatedPlaylist,
+                "playlist detials updated succesfully"
+            )
+        );
+});
 
 export {
     createPlaylist,
