@@ -31,21 +31,46 @@ const getAllVideos = asyncHandler(async (req, res) => {
         }
         videoQuery.owner = userId;
     }
-    //videoQuery.isPublished = true;
+    videoQuery.isPublished = true;
 
     let sortOptions = { createdAt: 1};
     if (sortBy && sortType) {
         sortOptions[sortBy] = sortType === 'asc' ? 1 : -1;
     }
 
-    const videos = await Video.aggregatePaginate(
-        videoQuery,
+    const videos = await Video.aggregate([
         {
-            page: parseInt(page),
-            limit: parseInt(limit),
-            sort: sortOptions 
+            $match: videoQuery
+        },
+        { $sort: sortOptions},
+        { $skip: (parseInt(page) - 1) * parseInt(limit) },
+        { $limit: parseInt(limit) },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            fullName: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: { $first: "$owner" }
+            }
+        },
+        {
+            $project: {
+                isPublished: 0
+            }
         }
-    );
+    ]);
 
     return res
         .status(200)
@@ -121,11 +146,55 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "invalid videoId");
     }
 
-    const video = await Video.findById(videoId);
-
-    if (!video) {
-        throw new ApiError(404, "video not found");
-    }
+    const video = await Video.aggregate([
+        {
+            $match: { _id: new mongoose.Types.ObjectId(videoId), isPublished: true}
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username: 1,
+                            fullName: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $lookup: {
+                from: "likes",
+                localField: "_id",
+                foreignField: "video",
+                as: "likes"
+            }
+        },
+        {
+            $addFields: {
+                owner: {$first: "$owner"},
+                totalLikes: {$size: "$likes"},
+                isLiked: {
+                    $cond: {
+                        if: {$in: [req.user?._id, "$likes.likedBy"]},
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                likes: 0,
+                isPublished: 0
+            }
+        }
+    ]);
 
     return res
         .status(200)

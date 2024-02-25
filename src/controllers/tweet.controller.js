@@ -1,16 +1,16 @@
 import mongoose, { isValidObjectId } from "mongoose"
-import {Tweet} from "../models/tweet.model.js"
-import {User} from "../models/user.model.js"
-import {ApiError} from "../utils/ApiError.js"
-import {ApiResponse} from "../utils/ApiResponse.js"
-import {asyncHandler} from "../utils/asyncHandler.js"
+import { Tweet } from "../models/tweet.model.js"
+import { User } from "../models/user.model.js"
+import { ApiError } from "../utils/ApiError.js"
+import { ApiResponse } from "../utils/ApiResponse.js"
+import { asyncHandler } from "../utils/asyncHandler.js"
 
 const createTweet = asyncHandler(async (req, res) => {
     //TODO: create tweet
 
-    const { content }= req.body;
+    const { content } = req.body;
 
-    if(!content) {
+    if (!content) {
         throw new ApiError(400, "content is required");
     }
 
@@ -19,7 +19,7 @@ const createTweet = asyncHandler(async (req, res) => {
         content
     });
 
-    if(!tweet) {
+    if (!tweet) {
         throw new ApiError(500, "DB :: something went wrong while posting tweet");
     }
 
@@ -56,6 +56,8 @@ const getUserTweets = asyncHandler(async (req, res) => {
                 owner: user._id
             }
         },
+        { $skip: (parseInt(page) - 1) * parseInt(limit) },
+        { $limit: parseInt(limit) },
         {
             $lookup: {
                 from: "users",
@@ -74,15 +76,33 @@ const getUserTweets = asyncHandler(async (req, res) => {
             }
         },
         {
+            $lookup: {
+                from: "likes",
+                localField: "_id",
+                foreignField: "tweet",
+                as: "likes"
+            }
+        },
+        {
             $addFields: {
-                owner: { $first: "$owner" }
+                owner: { $first: "$owner" },
+                totalLikes: { $size: "$likes" },
+                isLiked: {
+                    $cond: {
+                        if: {$in: [req.user?._id, "$likes.likedBy"]},
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },{
+            $project: {
+                likes: 0
             }
         }
     ]);
 
-    
-    
-    if(!tweets) {
+    if (!tweets) {
         throw new ApiError(500, "DB :: something went wrong while fetching tweets");
     }
 
@@ -100,7 +120,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
 const updateTweet = asyncHandler(async (req, res) => {
     //TODO: update tweet
 
-    const{ tweetId } = req.params;
+    const { tweetId } = req.params;
     const { content } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(tweetId)) {
@@ -113,18 +133,18 @@ const updateTweet = asyncHandler(async (req, res) => {
         throw new ApiError(404, "tweet not found");
     }
 
-    if(!content) {
+    if (!content) {
         throw new ApiError(400, "content is required");
     }
 
-    if(tweet.owner.toString() !== req.user?._id.toString()) {
+    if (tweet.owner.toString() !== req.user?._id.toString()) {
         throw new ApiError(401, "you are not the owner of this tweet");
     }
 
     tweet.content = content;
     const updatedTweet = await tweet.save();
 
-    if(!updatedTweet) {
+    if (!updatedTweet) {
         throw new ApiError(500, "something went wrong while editing tweet");
     }
 
@@ -142,7 +162,7 @@ const updateTweet = asyncHandler(async (req, res) => {
 const deleteTweet = asyncHandler(async (req, res) => {
     //TODO: delete tweet
 
-    const{ tweetId } = req.params;
+    const { tweetId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(tweetId)) {
         throw new ApiError(400, "invalid tweetId");
@@ -154,13 +174,13 @@ const deleteTweet = asyncHandler(async (req, res) => {
         throw new ApiError(404, "tweet not found");
     }
 
-    if(tweet.owner.toString() !== req.user?._id.toString()) {
+    if (tweet.owner.toString() !== req.user?._id.toString()) {
         throw new ApiError(401, "you are not the owner of this tweet");
     }
 
-    const deletedTweet = await Tweet.deleteOne({_id: tweetId});
-    
-    if(!deletedTweet) {
+    const deletedTweet = await Tweet.deleteOne({ _id: tweetId });
+
+    if (!deletedTweet) {
         throw new ApiError(500, "DB :: something went wrong while deleting tweet");
     }
 

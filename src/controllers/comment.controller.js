@@ -20,17 +20,58 @@ const getVideoComments = asyncHandler(async (req, res) => {
         throw new ApiError(404, "video not found");
     }
 
-    const comments = await Comment.aggregatePaginate(
+    const comments = await Comment.aggregate([
         {
-            $match: { video: videoId }
+            $match: { video: video._id }
+        },
+        { $skip: (parseInt(page) - 1) * parseInt(limit) },
+        { $limit: parseInt(limit) },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username: 1,
+                            fullName: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
         },
         {
-            page: parseInt(page),
-            limit: parseInt(limit)
+            $lookup: {
+                from: "likes",
+                localField: "_id",
+                foreignField: "comment",
+                as: "likes"
+            }
+        },
+        {
+            $addFields: {
+                owner: { $first: "$owner" },
+                totalLikes: { $size: "$likes" },
+                isLiked: {
+                    $cond: {
+                        if: { $in: [req.user?._id, "$likes.likedBy"] },
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                likes: 0
+            }
         }
-    );
-    
-    if(!comments) {
+    ]);
+
+    if (!comments) {
         throw new ApiError(500, "DB :: something went wrong while fetching comments");
     }
 
@@ -61,7 +102,7 @@ const addComment = asyncHandler(async (req, res) => {
         throw new ApiError(404, "video not found");
     }
 
-    if(!content) {
+    if (!content) {
         throw new ApiError(400, "content is required");
     }
 
@@ -71,7 +112,7 @@ const addComment = asyncHandler(async (req, res) => {
         owner: req.user?._id
     });
 
-    if(!comment){
+    if (!comment) {
         throw new ApiError(500, "DB :: something went wrong while adding comment");
     }
 
@@ -89,7 +130,7 @@ const addComment = asyncHandler(async (req, res) => {
 const updateComment = asyncHandler(async (req, res) => {
     // TODO: update a comment
 
-    const{ commentId } = req.params;
+    const { commentId } = req.params;
     const { content } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(commentId)) {
@@ -102,18 +143,18 @@ const updateComment = asyncHandler(async (req, res) => {
         throw new ApiError(404, "comment not found");
     }
 
-    if(!content) {
+    if (!content) {
         throw new ApiError(400, "content is required");
     }
 
-    if(comment.owner.toString() !== req.user?._id.toString()) {
+    if (comment.owner.toString() !== req.user?._id.toString()) {
         throw new ApiError(401, "you are not the owner of this comment");
     }
 
     comment.content = content;
     const updatedComment = await comment.save();
 
-    if(!updatedComment) {
+    if (!updatedComment) {
         throw new ApiError(500, "something went wrong while editing comment");
     }
 
@@ -131,7 +172,7 @@ const updateComment = asyncHandler(async (req, res) => {
 const deleteComment = asyncHandler(async (req, res) => {
     // TODO: delete a comment
 
-    const{ commentId } = req.params;
+    const { commentId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(commentId)) {
         throw new ApiError(400, "invalid commentId");
@@ -143,13 +184,13 @@ const deleteComment = asyncHandler(async (req, res) => {
         throw new ApiError(404, "comment not found");
     }
 
-    if(comment.owner.toString() !== req.user?._id.toString()) {
+    if (comment.owner.toString() !== req.user?._id.toString()) {
         throw new ApiError(401, "you are not the owner of this comment");
     }
 
-    const deletedComment = await Comment.deleteOne({_id: commentId});
-    
-    if(!deletedComment) {
+    const deletedComment = await Comment.deleteOne({ _id: commentId });
+
+    if (!deletedComment) {
         throw new ApiError(500, "DB :: something went wrong while deleting comment");
     }
 

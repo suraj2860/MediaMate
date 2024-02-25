@@ -75,7 +75,64 @@ const getPlaylistById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "invalid playlistId");
     }
 
-    const playlist = await Playlist.findById(playlistId);
+    // const playlist = await Playlist.findById(playlistId);
+
+    const playlist = await Playlist.aggregate([
+        {
+            $match: { _id: new mongoose.Types.ObjectId(playlistId) }
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField:"videos",
+                foreignField: "_id",
+                as: "videoDetails",
+                pipeline: [
+                    {
+                        $lookup: {
+                            from: "users",
+                            localField: "owner",
+                            foreignField: "_id",
+                            as: "owner",
+                            pipeline: [
+                                {
+                                    $project: {
+                                        username: 1,
+                                        fullName: 1
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        $addFields: {
+                            owner: "$owner"
+                        }
+                    },
+                    {
+                        $project: {
+                            title: 1,
+                            thumbnail: 1,
+                            owner: 1,
+                            createdAt: 1,
+                            duration: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                videos: "$videoDetails"
+            }
+        },
+        {
+            $project: {
+                videoDetails: 0,
+                
+            }
+        }
+    ]);
 
     if(!playlist) {
         throw new ApiError(404, "playlist not found");
