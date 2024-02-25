@@ -1,0 +1,1227 @@
+{
+	"info": {
+		"_postman_id": "ddf446ba-522f-49b5-8854-db0aa1ccf0f6",
+		"name": "youToob - Video Hosting App",
+		"description": "Welcome to YouToob, a complete video hosting website that provides a platform for users to upload, share, and engage with videos. This project is built using NodeJS, ExpressJS, MongoDB, and other technologies to ensure a robust and secure video hosting experience.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28204494"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/users/current-user",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"current-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "jackdoe",
+									"type": "text"
+								},
+								{
+									"key": "fullName",
+									"value": "Jack Doe",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "jackdoe@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "jack123",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/HP/Downloads/Passport_Photograph.jpg"
+								},
+								{
+									"key": "coverImage",
+									"type": "file",
+									"src": "/C:/Users/HP/Desktop/coverImage.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/users/register",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"suraj\",\r\n    \"password\": \"suraj123*\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{youToob}}/users/login",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/users/logout",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/users/refresh-token",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "oldPassword",
+									"value": "jack123",
+									"type": "text"
+								},
+								{
+									"key": "newPassword",
+									"value": "jack123*",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/users/change-password",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user details",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fullName",
+									"value": "Jack Doe",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "jackdoe@mail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/users/update-user-details",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"update-user-details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user avatar",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/F:/Downloads/IMG_20231024_201631-removebg-preview.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/users/update-user-avatar",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"update-user-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user cover image",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "coverImage",
+									"type": "file",
+									"src": "/C:/Users/HP/Desktop/Linkedin Cover Photo 3.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/users/update-user-coverImage",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"update-user-coverImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Channel profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/users/channel/:username",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"channel",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "suraj"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Watch History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/users/history",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"users",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Video",
+			"item": [
+				{
+					"name": "Get All Videos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/videos?page=&limit=&sortBy=&sortType=&query=",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"videos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": ""
+								},
+								{
+									"key": "limit",
+									"value": ""
+								},
+								{
+									"key": "sortBy",
+									"value": ""
+								},
+								{
+									"key": "sortType",
+									"value": ""
+								},
+								{
+									"key": "query",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a video",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/videos/:videoId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"videos",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6d6baf8e2e64c2264fb3d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish video",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "lorem ipsum",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "lorem ipsum",
+									"type": "text"
+								},
+								{
+									"key": "videoFile",
+									"type": "file",
+									"src": "/F:/Downloads/file_example_MP4_640_3MG.mp4"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/F:/Downloads/x.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/videos/publish",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"videos",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update video",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "foo bar",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Spcae view of our earth rotation.",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/videos/:videoId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"videos",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6f53472ac18d6bfd9bd45"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle publish status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/videos/toggle/publish/:videoId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"videos",
+								"toggle",
+								"publish",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6f53472ac18d6bfd9bd45"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a video",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/videos/:videoId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"videos",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6f1a9128b395a10cdeb9e"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Playlist",
+			"item": [
+				{
+					"name": "Get all playlists of user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/playlists/user/:userId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"playlists",
+								"user",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "65d1f472e2b760b5fee98bd9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a playlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/playlists/:playlistId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"playlists",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "playlistId",
+									"value": "65d95b4baba58540c7beaa9c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a playlist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/playlists",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add video to playlist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/playlists/add/:videoId/:playlistId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"playlists",
+								"add",
+								":videoId",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6d6baf8e2e64c2264fb3d"
+								},
+								{
+									"key": "playlistId",
+									"value": "65d83586c4a07d1da5ce1d32"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove video from playlist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/playlists/remove/:videoId/:playlistId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"playlists",
+								"remove",
+								":videoId",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6f1a9128b395a10cdeb9e"
+								},
+								{
+									"key": "playlistId",
+									"value": "65d83586c4a07d1da5ce1d32"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update playlist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/playlists/:playlistId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"playlists",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "playlistId",
+									"value": "65d95b4baba58540c7beaa9c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete playlist",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/playlists/:playlistId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"playlists",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "playlistId",
+									"value": "65d83586c4a07d1da5ce1d32"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Get all comments for video",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/comments/:videoId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"comments",
+								":videoId"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6d6baf8e2e64c2264fb3d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/comments/:videoId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"comments",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6d6baf8e2e64c2264fb3d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit comment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/comments/c/:commentId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"comments",
+								"c",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "65d973fd3940052462e21899"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/comments/c/:commentId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"comments",
+								"c",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "65d973fd3940052462e21899"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tweet",
+			"item": [
+				{
+					"name": "Post tweet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/tweets",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"tweets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user tweets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/tweets/user/:userId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"tweets",
+								"user",
+								":userId"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "65d1f472e2b760b5fee98bd9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit tweet",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{youToob}}/tweets/:tweetId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"tweets",
+								":tweetId"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "65d983c38a7d01b18116c8f4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete tweet",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/tweets/:tweetId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"tweets",
+								":tweetId"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "65d98bed031c6a28894e68b8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Like",
+			"item": [
+				{
+					"name": "Toogle video like",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/likes/toggle/v/:videoId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"likes",
+								"toggle",
+								"v",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d6d6baf8e2e64c2264fb3d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle comment like",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/likes/toggle/c/:commentId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"likes",
+								"toggle",
+								"c",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "65d97bf96d1d4c3307889968"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle tweet like",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/likes/toggle/t/:tweetId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"likes",
+								"toggle",
+								"t",
+								":tweetId"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "65d983c38a7d01b18116c8f4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all liked videos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/likes/videos",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"likes",
+								"videos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subscription",
+			"item": [
+				{
+					"name": "Toggle subscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/subscriptions/c/:channelId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"subscriptions",
+								"c",
+								":channelId"
+							],
+							"variable": [
+								{
+									"key": "channelId",
+									"value": "65d6f48f72ac18d6bfd9bd2a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Channel subscribers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/subscriptions/c/:channelId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"subscriptions",
+								"c",
+								":channelId"
+							],
+							"variable": [
+								{
+									"key": "channelId",
+									"value": "65d6f48f72ac18d6bfd9bd2a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribed channels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/subscriptions/u/:subscriberId",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"subscriptions",
+								"u",
+								":subscriberId"
+							],
+							"variable": [
+								{
+									"key": "subscriberId",
+									"value": "65d1f472e2b760b5fee98bd9"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Channel stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/dashboard/stats",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"dashboard",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Channel videos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{youToob}}/dashboard/videos",
+							"host": [
+								"{{youToob}}"
+							],
+							"path": [
+								"dashboard",
+								"videos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{youToob}}/healthcheck",
+					"host": [
+						"{{youToob}}"
+					],
+					"path": [
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
