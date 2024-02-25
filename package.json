@@ -6,7 +6,7 @@
   "main": "src/index.mjs",
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
-    "start": "node src/index.mjs"
+    "start": "node src/index.js"
   },
   "author": "suraj kumar",
   "license": "ISC",
