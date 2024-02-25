@@ -65,4 +65,4 @@ Welcome to YouToob, a complete video hosting website that provides a platform fo
 
 
 
-5. **Download postman collection for endpoints :** [Download Postman Collection](raw_url_of_your_exported_file](https://raw.githubusercontent.com/suraj2860/YouToob/master/youToob%20-%20Video%20Hosting%20App.postman_collection.json)https://raw.githubusercontent.com/suraj2860/YouToob/master/youToob%20-%20Video%20Hosting%20App.postman_collection.json)
+5. **Download postman collection for endpoints :** [Download Postman Collection](https://raw.githubusercontent.com/suraj2860/YouToob/master/youToob%20-%20Video%20Hosting%20App.postman_collection.json)
