@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.mjs",
+  "main": "src/index.mjs",
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
     "start": "node src/index.mjs"
