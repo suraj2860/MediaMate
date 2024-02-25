@@ -1,6 +1,18 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { fileURLToPath } from "url";
+import path from "path";
+import fs from "fs";
+import YAML from "yaml";
+import swaggerUi from "swagger-ui-express";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const file = fs.readFileSync(path.resolve(__dirname, "./swagger.yaml"), "utf8");
+const swaggerDocument = YAML.parse(file);
+
 
 const app = express();
 
@@ -35,6 +47,18 @@ app.use("/api/v1/likes", likeRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
 app.use("/api/v1/healthcheck", healthcheckRouter);
+
+
+app.use(
+    "/",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, {
+      swaggerOptions: {
+        docExpansion: "none", // keep all the sections collapsed by default
+      },
+      customSiteTitle: "YouToobAPI docs",
+    })
+  );
 
 
 export { app };

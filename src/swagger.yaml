@@ -1,0 +1,895 @@
+openapi: 3.0.0
+info:
+  title: YouToob - Video Hosting App
+  description: |
+
+    Welcome to **YouToob**, a complete video hosting website that provides a platform for users to upload, share, and engage with videos. This project is built using NodeJS, ExpressJS, MongoDB, and other technologies to ensure a robust and secure video hosting experience.
+
+    ### 🔒 Authentication 
+
+    - YouToob uses JWT (JSON Web Tokens) for secure authentication. Users can create accounts through a secure signup process, and passwords are hashed using bcrypt for enhanced security.
+
+    ### 🎥 Video Management 
+
+    - Easy video upload functionality with secure cloud storage using Cloudinary.
+    - Users can like, dislike, and comment on videos to engage with content.
+
+    ### 📬 Subscription System 
+
+    - Users can subscribe to channels they like, enhancing their experience and keeping them updated on new content.
+
+    ### 👍 User Interaction 
+
+    - 👍 Like or dislike videos to express opinions.
+    - Leave comments on videos to participate in discussions.
+    - Subscribe or unsubscribe to stay updated on new content.
+
+    ### 🔐 Security Measures 
+
+    - Passwords are securely hashed using bcrypt for enhanced security.
+    - JWTs are used for access tokens, providing a secure and scalable authentication mechanism.
+
+    ### 📄 File Handling 
+
+    - Multer is used for handling file uploads, ensuring a smooth video upload process.
+
+    ### 🛠️ Built With
+
+    - **NodeJS:** Server-side JavaScript runtime.
+    - **ExpressJS:** Web application framework for Node.js.
+    - **MongoDB:** NoSQL database for efficient and flexible data storage.
+    - **bcrypt:** Library for password hashing.
+    - **Mongoose:** MongoDB object modeling for Node.js.
+    - **Cloudinary:** Cloud-based image and video management platform.
+    - **JWT:** JSON Web Tokens for secure authentication.
+    - **Multer:** Middleware for handling file uploads.
+
+    ### ⚙️ Installation
+
+    1. **Clone the repository.**
+        ```bash
+        git clone https://github.com/suraj2860/YouToob.git
+        ```
+
+    2. **Install dependencies.**
+        ```bash
+        npm install
+        ```
+        This will download and install the necessary dependencies for the project.
+
+        * Note: Ensure that you have Node.js and npm installed on your machine before running the installation commands.
+
+    3. **Set up your environment variables.**
+
+        Create a .env file based on the provided .env.sample.
+
+    4. **Start the application.**
+        ```bash
+        npm run dev
+        ```
+        This command will launch the YouToob application on http://localhost:8000.
+
+    5. **Download Postman collection for endpoints:** [Download Postman Collection](https://raw.githubusercontent.com/suraj2860/YouToob/master/youToob%20-%20Video%20Hosting%20App.postman_collection.json)
+
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+tags:
+  - name: 🙍‍♂️ User
+    description: >-
+        This section contains a collection of all the APIs related to user management.
+  - name: 🎥 Video
+    description: >-
+          This section contains a collection of all the APIs related to video management.
+  - name: 🎵 Playlist
+    description: >-
+          This section contains a collection of all the APIs related to playlist management.
+  - name: 💬 Comment 
+    description: >-
+          This section contains a collection of all the APIs related to comment management.
+  - name: 📝 Tweet
+    description: >-
+          This section contains a collection of all the APIs related to tweet management.
+  - name: 👍 Like
+    description: >-
+          This section contains a collection of all the APIs related to like management.
+  - name: 🔔 Subscription
+    description: >-
+          This section contains a collection of all the APIs related to subscription management.
+  - name: 📊 Dashboard
+    description: >-
+          This section contains a collection of all the APIs related to dashboard.
+  - name: 🩺 Healthcheck
+    description: >-
+          This section contains health check API.
+paths:
+  /users/current-user:
+    get:
+      tags:
+        - 🙍‍♂️ User
+      summary: Current User
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/register:
+    post:
+      tags:
+        - 🙍‍♂️ User
+      summary: Register User
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: jackdoe
+                fullName:
+                  type: string
+                  example: Jack Doe
+                email:
+                  type: string
+                  example: jackdoe@mail.com
+                password:
+                  type: string
+                  example: jack123
+                avatar:
+                  type: string
+                  format: binary
+                coverImage:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/login:
+    post:
+      tags:
+        - 🙍‍♂️ User
+      summary: Login User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: suraj
+                password: suraj123*
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/logout:
+    post:
+      tags:
+        - 🙍‍♂️ User
+      summary: Logout User
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/refresh-token:
+    post:
+      tags:
+        - 🙍‍♂️ User
+      summary: Refresh Token
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/change-password:
+    post:
+      tags:
+        - 🙍‍♂️ User
+      summary: Change Password
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                  example: jack123
+                newPassword:
+                  type: string
+                  example: jack123*
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/update-user-details:
+    patch:
+      tags:
+        - 🙍‍♂️ User
+      summary: Update user details
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  example: Jack Doe
+                email:
+                  type: string
+                  example: jackdoe@mail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/update-user-avatar:
+    patch:
+      tags:
+        - 🙍‍♂️ User
+      summary: Update user avatar
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/update-user-coverImage:
+    patch:
+      tags:
+        - 🙍‍♂️ User
+      summary: Update user cover image
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                coverImage:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/channel/{username}:
+    get:
+      tags:
+        - 🙍‍♂️ User
+      summary: Channel profile
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+          required: true
+          example: suraj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/history:
+    get:
+      tags:
+        - 🙍‍♂️ User
+      summary: Watch History
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /videos:
+    get:
+      tags:
+        - 🎥 Video
+      summary: Get All Videos
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortType
+          in: query
+          schema:
+            type: string
+        - name: query
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /videos/{videoId}:
+    get:
+      tags:
+        - 🎥 Video
+      summary: Get a video
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6d6baf8e2e64c2264fb3d
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - 🎥 Video
+      summary: Update video
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                thumbnail:
+                  type: string
+                  format: binary
+                title:
+                  type: string
+                  example: foo bar
+                description:
+                  type: string
+                  example: Spcae view of our earth rotation.
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6f53472ac18d6bfd9bd45
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - 🎥 Video
+      summary: Delete a video
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6f1a9128b395a10cdeb9e
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /videos/publish:
+    post:
+      tags:
+        - 🎥 Video
+      summary: Publish video
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: lorem ipsum
+                description:
+                  type: string
+                  example: lorem ipsum
+                videoFile:
+                  type: string
+                  format: binary
+                thumbnail:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /videos/toggle/publish/{videoId}:
+    patch:
+      tags:
+        - 🎥 Video
+      summary: Toggle publish status
+      requestBody:
+        content: {}
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6f53472ac18d6bfd9bd45
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /playlists/user/{userId}:
+    get:
+      tags:
+        - 🎵 Playlist
+      summary: Get all playlists of user
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1f472e2b760b5fee98bd9
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /playlists/{playlistId}:
+    get:
+      tags:
+        - 🎵 Playlist
+      summary: Get a playlist
+      parameters:
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d95b4baba58540c7beaa9c
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - 🎵 Playlist
+      summary: Update playlist
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      parameters:
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d95b4baba58540c7beaa9c
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - 🎵 Playlist
+      summary: Delete playlist
+      parameters:
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d83586c4a07d1da5ce1d32
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /playlists:
+    post:
+      tags:
+        - 🎵 Playlist
+      summary: Create a playlist
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /playlists/add/{videoId}/{playlistId}:
+    patch:
+      tags:
+        - 🎵 Playlist
+      summary: Add video to playlist
+      requestBody:
+        content: {}
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6d6baf8e2e64c2264fb3d
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d83586c4a07d1da5ce1d32
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /playlists/remove/{videoId}/{playlistId}:
+    patch:
+      tags:
+        - 🎵 Playlist
+      summary: Remove video from playlist
+      requestBody:
+        content: {}
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6f1a9128b395a10cdeb9e
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d83586c4a07d1da5ce1d32
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /comments/{videoId}:
+    get:
+      tags:
+        - 💬 Comment
+      summary: Get all comments for video
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6d6baf8e2e64c2264fb3d
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - 💬 Comment
+      summary: Post comment
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6d6baf8e2e64c2264fb3d
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /comments/c/{commentId}:
+    patch:
+      tags:
+        - 💬 Comment
+      summary: Edit comment
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      parameters:
+        - name: commentId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d973fd3940052462e21899
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - 💬 Comment
+      summary: Delete comment
+      parameters:
+        - name: commentId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d973fd3940052462e21899
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /tweets:
+    post:
+      tags:
+        - 📝 Tweet
+      summary: Post tweet
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /tweets/user/{userId}:
+    get:
+      tags:
+        - 📝 Tweet
+      summary: Get user tweets
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1f472e2b760b5fee98bd9
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /tweets/{tweetId}:
+    patch:
+      tags:
+        - 📝 Tweet
+      summary: Edit tweet
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      parameters:
+        - name: tweetId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d983c38a7d01b18116c8f4
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - 📝 Tweet
+      summary: Delete tweet
+      parameters:
+        - name: tweetId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d98bed031c6a28894e68b8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /likes/toggle/v/{videoId}:
+    post:
+      tags:
+        - 👍 Like
+      summary: Toogle video like
+      requestBody:
+        content: {}
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6d6baf8e2e64c2264fb3d
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /likes/toggle/c/{commentId}:
+    post:
+      tags:
+        - 👍 Like
+      summary: Toggle comment like
+      requestBody:
+        content: {}
+      parameters:
+        - name: commentId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d97bf96d1d4c3307889968
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /likes/toggle/t/{tweetId}:
+    post:
+      tags:
+        - 👍 Like
+      summary: Toggle tweet like
+      requestBody:
+        content: {}
+      parameters:
+        - name: tweetId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d983c38a7d01b18116c8f4
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /likes/videos:
+    get:
+      tags:
+        - 👍 Like
+      summary: Get all liked videos
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subscriptions/c/{channelId}:
+    post:
+      tags:
+        - 🔔 Subscription
+      summary: Toggle subscription
+      requestBody:
+        content: {}
+      parameters:
+        - name: channelId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6f48f72ac18d6bfd9bd2a
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - 🔔 Subscription
+      summary: Channel subscribers
+      parameters:
+        - name: channelId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d6f48f72ac18d6bfd9bd2a
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subscriptions/u/{subscriberId}:
+    get:
+      tags:
+        - 🔔 Subscription
+      summary: Subscribed channels
+      parameters:
+        - name: subscriberId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1f472e2b760b5fee98bd9
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /dashboard/stats:
+    get:
+      tags:
+        - 📊 Dashboard
+      summary: Channel stats
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /dashboard/videos:
+    get:
+      tags:
+        - 📊 Dashboard
+      summary: Channel videos
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /healthcheck:
+    get:
+      tags:
+        - 🩺 Healthcheck
+      summary: Healthcheck
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
