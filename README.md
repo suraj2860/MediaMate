@@ -3,6 +3,9 @@
 Welcome to YouToob, a complete video hosting website that provides a platform for users to upload, share, and engage with videos. This project is built using NodeJS, ExpressJS, MongoDB, and other technologies to ensure a robust and secure video hosting experience.
 
 [Database Schema](https://app.eraser.io/workspace/YtPqZ1VogxGy1jzIDkzj)
+Hosted on render : [YouToob](https://youtoob-t5b7.onrender.com)
+
+* Note - Hosted on free instatnce of render. Free instance will spin down with inactivity, which can delay requests by 50 seconds or more. 
 
 ## Features
 
@@ -68,3 +71,6 @@ Welcome to YouToob, a complete video hosting website that provides a platform fo
 
 
 5. **Download postman collection for endpoints :** [Download Postman Collection](https://raw.githubusercontent.com/suraj2860/YouToob/master/youToob%20-%20Video%20Hosting%20App.postman_collection.json)
+
+# 📜 Swagger Docs
+[Swagger Documentation](https://youtoob-t5b7.onrender.com)
