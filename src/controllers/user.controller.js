@@ -128,11 +128,12 @@ const loginUser = asyncHandler(async (req, res) => {
     // removing password and refreshToken from response
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
-    // returning response and storing accessToken & refreshToken in cookies
+    // returning respons,e and storing accessToken & refreshToken in cookies
 
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: 'None'
     }
 
     return res
