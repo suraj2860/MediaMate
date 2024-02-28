@@ -134,7 +134,7 @@ const loginUser = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
-        domain: 'http://localhost:5173/'
+        domain: 'localhost'
     }
 
     return res
@@ -173,7 +173,7 @@ const logoutUser = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
-        domain: 'http://localhost:5173/'
+        domain: 'localhost'
     }
 
     return res
