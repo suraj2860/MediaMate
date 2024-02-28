@@ -131,10 +131,10 @@ const loginUser = asyncHandler(async (req, res) => {
     // returning respons,e and storing accessToken & refreshToken in cookies
 
     const options = {
-        //httpOnly: true,
+        httpOnly: true,
         secure: true,
-        sameSite: 'none',
-        maxAge: 24 * 60 * 60
+        //sameSite: 'none',
+        //maxAge: 24 * 60 * 60
     }
 
     return res
@@ -170,9 +170,9 @@ const logoutUser = asyncHandler(async (req, res) => {
     );
 
     const options = {
-       // httpOnly: true,
+        httpOnly: true,
         secure: true,
-        sameSite: 'none',
+        //sameSite: 'none',
     }
 
     return res
