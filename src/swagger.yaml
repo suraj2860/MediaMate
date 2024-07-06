@@ -69,7 +69,7 @@ info:
         ```
         This command will launch the MediaMate application on http://localhost:8000.
 
-    5. **Download Postman collection for endpoints:** [Download Postman Collection](https://raw.githubusercontent.com/suraj2860/MediaMate/master/MediaMate%20-%20Video%20Hosting%20App.postman_collection.json)
+    5. **Download Postman collection for endpoints:** [Download Postman Collection](https://github.com/suraj2860/MediaMate/blob/master/src/MediaMate%20-%20Video%20Hosting%20App.postman_collection.json)
 
   version: 1.0.0
 servers:
