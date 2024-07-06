@@ -56,7 +56,7 @@ app.use(
       swaggerOptions: {
         docExpansion: "none", // keep all the sections collapsed by default
       },
-      customSiteTitle: "YouToobAPI docs",
+      customSiteTitle: "MediaMate API Doc",
     })
   );
 
