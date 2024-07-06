@@ -1,9 +1,9 @@
-# YouToob - Video Hosting App
+# MediaMate - Video Hosting App
 
-Welcome to YouToob, a complete video hosting website that provides a platform for users to upload, share, and engage with videos. This project is built using NodeJS, ExpressJS, MongoDB, and other technologies to ensure a robust and secure video hosting experience.
+Welcome to MediaMate, a complete video hosting website that provides a platform for users to upload, share, and engage with videos. This project is built using NodeJS, ExpressJS, MongoDB, and other technologies to ensure a robust and secure video hosting experience.
 
 * [Database Schema](https://app.eraser.io/workspace/YtPqZ1VogxGy1jzIDkzj)
-* Hosted on render : [YouToob](https://youtoob-t5b7.onrender.com)
+* Hosted on render : [MediaMate](https://youtoob-t5b7.onrender.com)
 
 * Note - Hosted on free instatnce of render. Free instance will spin down with inactivity, which can delay requests by 50 seconds or more. 
 
@@ -49,7 +49,7 @@ Welcome to YouToob, a complete video hosting website that provides a platform fo
 
 1. **Clone the repository.**
    ```bash
-   git clone https://github.com/suraj2860/YouToob.git
+   git clone https://github.com/suraj2860/MediaMate.git
 2. **Install dependencies.**
     ```bash
     npm install
@@ -66,7 +66,7 @@ Welcome to YouToob, a complete video hosting website that provides a platform fo
     ```bash
     npm run dev
     ```
-    This command will launch the YouToob application on http://localhost:8000.
+    This command will launch the MediaMate application on http://localhost:8000.
 
 
 
