@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-  title: YouToob - Video Hosting App
+  title: MediaMate - Video Hosting App
   description: |
 
-    Welcome to **YouToob**, a complete video hosting website that provides a platform for users to upload, share, and engage with videos. This project is built using NodeJS, ExpressJS, MongoDB, and other technologies to ensure a robust and secure video hosting experience.
+    Welcome to **MediaMate**, a complete video hosting website that provides a platform for users to upload, share, and engage with videos. This project is built using NodeJS, ExpressJS, MongoDB, and other technologies to ensure a robust and secure video hosting experience.
 
     ### 🔒 Authentication 
 
-    - YouToob uses JWT (JSON Web Tokens) for secure authentication. Users can create accounts through a secure signup process, and passwords are hashed using bcrypt for enhanced security.
+    - MediaMate uses JWT (JSON Web Tokens) for secure authentication. Users can create accounts through a secure signup process, and passwords are hashed using bcrypt for enhanced security.
 
     ### 🎥 Video Management 
 
@@ -48,7 +48,7 @@ info:
 
     1. **Clone the repository.**
         ```bash
-        git clone https://github.com/suraj2860/YouToob.git
+        git clone https://github.com/suraj2860/MediaMate.git
         ```
 
     2. **Install dependencies.**
@@ -67,9 +67,9 @@ info:
         ```bash
         npm run dev
         ```
-        This command will launch the YouToob application on http://localhost:8000.
+        This command will launch the MediaMate application on http://localhost:8000.
 
-    5. **Download Postman collection for endpoints:** [Download Postman Collection](https://raw.githubusercontent.com/suraj2860/YouToob/master/youToob%20-%20Video%20Hosting%20App.postman_collection.json)
+    5. **Download Postman collection for endpoints:** [Download Postman Collection](https://raw.githubusercontent.com/suraj2860/MediaMate/master/MediaMate%20-%20Video%20Hosting%20App.postman_collection.json)
 
   version: 1.0.0
 servers:
