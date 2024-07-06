@@ -70,7 +70,7 @@ Welcome to MediaMate, a complete video hosting website that provides a platform 
 
 
 
-5. **Download postman collection for endpoints :** [Download Postman Collection](https://raw.githubusercontent.com/suraj2860/MediaMate/master/MediaMate%20-%20Video%20Hosting%20App.postman_collection.json)
+5. **Download postman collection for endpoints :** [Download Postman Collection](https://github.com/suraj2860/MediaMate/blob/master/src/MediaMate%20-%20Video%20Hosting%20App.postman_collection.json)
 
 # 📜 Swagger Docs
 [Swagger Documentation](https://youtoob-t5b7.onrender.com)
